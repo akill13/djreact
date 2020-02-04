@@ -5,7 +5,7 @@ class CustomForm extends React.Component {
     render() {
         return (
             <div>
-                <Form onSubmit={this.handleFormSubmit}>
+                <Form onSubmit={(event) => this.handleFormSubmit(event, this.props.requestType, this.props.articleID)}>
                     <Form.Item label="Title" >
                         <Input name='title' placeholder="input title" />
                     </Form.Item>
@@ -13,7 +13,7 @@ class CustomForm extends React.Component {
                         <Input name='content' placeholder="input content" />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType='submit'>Submit</Button>
+                        <Button type="primary" htmlType='submit'>{this.props.btnText}</Button>
                     </Form.Item>
                 </Form>
             </div>
@@ -32,7 +32,7 @@ class CustomForm extends React.Component {
                     content: content
                 })
                     .then(resp => console.log(resp))
-                    .then(err => console.error(err));
+                    .catch(err => console.error(err));
                 break;
             case 'put':
                 axios.put(`http://127.0.0.1:8000/api/${articleID}/`, {
@@ -40,7 +40,7 @@ class CustomForm extends React.Component {
                     content: content
                 })
                     .then(resp => console.log(resp))
-                    .then(err => console.error(err));
+                    .catch(err => console.error(err));
                 break;
         }
     }
