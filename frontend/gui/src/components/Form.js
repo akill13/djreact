@@ -1,23 +1,48 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
-
+import axios from 'axios';
 class CustomForm extends React.Component {
     render() {
         return (
             <div>
-                <Form>
+                <Form onSubmit={this.handleFormSubmit}>
                     <Form.Item label="Title" >
-                        <Input placeholder="input title" />
+                        <Input name='title' placeholder="input title" />
                     </Form.Item>
                     <Form.Item label="Content" >
-                        <Input placeholder="input content" />
+                        <Input name='content' placeholder="input content" />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary">Submit</Button>
+                        <Button type="primary" htmlType='submit'>Submit</Button>
                     </Form.Item>
                 </Form>
             </div>
         );
+    }
+
+    handleFormSubmit = (event, requestType, articleID) => {
+        event.preventDefault();
+        const title = event.target.elements.title.value;
+        const content = event.target.elements.content.value;
+
+        switch (requestType) {
+            case 'post':
+                axios.post(`http://127.0.0.1:8000/api/`, {
+                    title: title,
+                    content: content
+                })
+                    .then(resp => console.log(resp))
+                    .then(err => console.error(err));
+                break;
+            case 'put':
+                axios.put(`http://127.0.0.1:8000/api/${articleID}/`, {
+                    title: title,
+                    content: content
+                })
+                    .then(resp => console.log(resp))
+                    .then(err => console.error(err));
+                break;
+        }
     }
 }
 
