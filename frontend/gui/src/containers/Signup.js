@@ -21,6 +21,7 @@ class RegistrationForm extends React.Component {
                 this.props.onAuth(values.username, values.email, values.password, values.confirm);
             }
         });
+        this.props.history.push('/');
     };
 
     handleConfirmBlur = e => {
